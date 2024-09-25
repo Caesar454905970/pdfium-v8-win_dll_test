@@ -182,6 +182,15 @@ FPDF_EXPORT FPDF_BOOL FPDF_CALLCONV FPDFPage_RemoveAnnot(FPDF_PAGE page,
                                                          int index);
 
 // Experimental API.
+// Generate and set the appearance stream for an annotation.
+//
+//   annot  - handle to an annotation.
+//
+// Returns true if successful.
+FPDF_EXPORT FPDF_BOOL FPDF_CALLCONV
+FPDFAnnot_GenerateAP(FPDF_ANNOTATION annot);
+
+// Experimental API.
 // Get the subtype of an annotation.
 //
 //   annot  - handle to an annotation.

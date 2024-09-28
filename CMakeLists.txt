@@ -15,16 +15,6 @@ add_executable(pdfium_app main.cpp
         include/stbi/stb_image_write.h
 )
 
-# PDFium Package Configuration for CMake
-#
-# To use PDFium in your CMake project:
-#
-#   1. set the environment variable PDFium_DIR to the folder containing this file.
-#   2. in your CMakeLists.txt, add
-#       find_package(PDFium)
-#   3. then link your executable with PDFium
-#       target_link_libraries(my_exe pdfium)
-
 include(FindPackageHandleStandardArgs)
 
 find_path(PDFium_INCLUDE_DIR
@@ -79,8 +69,7 @@ else()
 
     if(NOT TARGET pdfium)
         add_library(pdfium SHARED IMPORTED
-                fillFormMain.cpp
-                fillFormMain.cpp)
+        )
         set_target_properties(pdfium
                 PROPERTIES
                 IMPORTED_LOCATION             "${PDFium_LIBRARY}"
@@ -97,3 +86,21 @@ endif()
 # 链接 PDFium 库
 target_link_libraries(pdfium_app pdfium)
 
+#######################################################################
+################### libjpeg ###########################################
+## 包含头文件
+#include_directories("${PROJECT_SOURCE_DIR}/include/libjg")
+#
+## 链接库文件路径
+##link_directories("${PROJECT_SOURCE_DIR}/lib")
+#
+## 显式链接 libjpeg 库
+## 链接库
+#target_link_libraries(pdfium_app "${PROJECT_SOURCE_DIR}/lib/libjpeg.lib")
+#
+## 拷贝动态库到输出目录
+#add_custom_command(TARGET pdfium_app POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#        "${PROJECT_SOURCE_DIR}/bin/libjpeg-9.dll"
+#        $<TARGET_FILE_DIR:pdfium_app>)
+#######################################################################

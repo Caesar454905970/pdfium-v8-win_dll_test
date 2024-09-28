@@ -46,7 +46,25 @@ void PrintFormFields(FPDF_DOCUMENT doc, FPDF_FORMHANDLE form_handle, const std::
                     FPDFAnnot_GetFormFieldName(form_handle, annot, name.data(), name_length);
                     std::wstring field_name(name.begin(), name.end() - 1); // 去掉末尾的空字符
                     std::wcout << L"Field Name: " << field_name << std::endl;
+                    if (field_name == L"rep_conclu") {
+                        std::wstring field_value = L"结构及组成\t主要由主机、动态心电记录单元(动态心电记录仪)、呼吸检测单元(手持式呼吸检测器和气压传感器)、握力检测单元(数字握力计)、血压检测单元和软件组成。\n"
+                                                   "\t适用范围\t通过Valsalva试验、深呼吸试验、握力试验、立卧位试验、倾斜试验，处理分析各个试验的呼吸、心率、血压、握力检测数据，辅助医生评估糖尿病患者的心脏自主神经功能和心率变异性。\n"
+                                                   "\t附\t件\t产品技术要求。\n"
+                                                   "\t其他内容\t无\n"
+                                                   "\t产品监";
+                        auto value = reinterpret_cast<const FPDF_WIDESTRING>(field_value.c_str());
+                        if (!FPDFAnnot_SetStringValue(annot, "V", value)) {
+                            std::cerr << "Failed to set field value." << std::endl;
+                        }
+                        // 生成并设置外观流
+                        if (FPDFAnnot_GenerateAP(annot)) {
+                            // 外观流生成成功
+                            std::wcout << L"FPDFAnnot_GenerateAP success " << field_name << std::endl;
 
+                        } else {
+                            std::wcout << L"FPDFAnnot_GenerateAP error " << field_name << std::endl;
+                        }
+                    }
                     if (field_name == L"pat_name") {
                         std::wstring field_value = L"测试1";
                         auto value = reinterpret_cast<const FPDF_WIDESTRING>(field_value.c_str());
